@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vaganov.tasks.dto.TaskDto;
 import ru.vaganov.tasks.exception.TaskNotFoundException;
 import ru.vaganov.tasks.model.Task;
 import ru.vaganov.tasks.repository.TaskRepository;
@@ -19,7 +20,12 @@ public class TaskServiceImpl implements TaskService{
   private TaskRepository repository;
 
   @Transactional
-  public Task saveTask(Task task){
+  public Task saveTask(TaskDto newTaskDto){
+    Task task = new Task();
+    task.setTitle(newTaskDto.getTitle());
+    task.setDescription(newTaskDto.getDescription());
+    task.setDueDate(newTaskDto.getDueDate());
+    task.setCompleted(newTaskDto.isCompleted());
     return repository.save(task);
   }
 
@@ -34,12 +40,12 @@ public class TaskServiceImpl implements TaskService{
   }
 
   @Transactional
-  public Task updateTask(Task newTask, Long id){
+  public Task updateTask(TaskDto newTaskDto, Long id){
     return repository.findById(id).map(task -> {
-     task.setTitle(newTask.getTitle());
-     task.setDescription(newTask.getDescription());
-     task.setDueDate(newTask.getDueDate());
-     task.setCompleted(newTask.isCompleted());
+     task.setTitle(newTaskDto.getTitle());
+     task.setDescription(newTaskDto.getDescription());
+     task.setDueDate(newTaskDto.getDueDate());
+     task.setCompleted(newTaskDto.isCompleted());
       return  repository.save(task);
     }).orElseThrow(()-> new TaskNotFoundException(id));
   }

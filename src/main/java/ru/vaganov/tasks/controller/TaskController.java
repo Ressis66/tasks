@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.vaganov.tasks.dto.TaskDto;
 import ru.vaganov.tasks.model.Task;
 import ru.vaganov.tasks.service.TaskService;
 
@@ -22,8 +23,8 @@ public class TaskController {
   private TaskService taskService;
 
   @PostMapping("/task")
-  Task newTask(@RequestBody Task newTask){
-    return taskService.saveTask(newTask);
+  Task newTask(@RequestBody TaskDto newTaskDto){
+    return taskService.saveTask(newTaskDto);
   }
 
   @GetMapping("/tasks")
@@ -37,8 +38,8 @@ public class TaskController {
   }
 
   @PutMapping("/task/{id}")
-  Task updateTask(@RequestBody Task newTask, @PathVariable Long id) {
-    return taskService.updateTask(newTask, id);
+  Task updateTask(@RequestBody TaskDto newTaskDto, @PathVariable Long id) {
+    return taskService.updateTask(newTaskDto, id);
   }
 
   @DeleteMapping("/task/{id}")

@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ru.vaganov.tasks.dto.TaskDto;
 import ru.vaganov.tasks.exception.TaskNotFoundException;
 import ru.vaganov.tasks.model.Task;
 import ru.vaganov.tasks.repository.TaskRepository;
@@ -39,12 +40,20 @@ class TasksApplicationTests {
 
 	private Task task;
 
+	private TaskDto taskDto;
+
 	@BeforeEach
 	public void setup(){
 		task = Task.builder()
 				.id(1L)
-				.title("Ramesh")
-				.description("Fadatare")
+				.title("Ram")
+				.description("String")
+				.dueDate(LocalDate.now())
+				.build();
+
+		taskDto=TaskDto.builder()
+				.title("Ram")
+				.description("String")
 				.dueDate(LocalDate.now())
 				.build();
 	}
@@ -63,7 +72,7 @@ class TasksApplicationTests {
 		System.out.println(taskService);
 
 		// when -  action or the behaviour that we are going test
-		Task savedTask = taskService.saveTask(task);
+		Task savedTask = taskService.saveTask(taskDto);
 
 		System.out.println(savedTask);
 		// then - verify the output
@@ -83,7 +92,7 @@ class TasksApplicationTests {
 
 		// when -  action or the behaviour that we are going test
 		org.junit.jupiter.api.Assertions.assertThrows(TaskNotFoundException.class, () -> {
-			taskService.saveTask(task);
+			taskService.saveTask(taskDto);
 		});
 
 		// then
@@ -157,10 +166,10 @@ class TasksApplicationTests {
 	public void givenTaskObject_whenUpdateTask_thenReturnUpdatedTask(){
 		// given - precondition or setup
 		given(taskRepository.save(task)).willReturn(task);
-		task.setTitle("ram");
-		task.setDescription("Rad vic");
+		taskDto.setTitle("ram");
+		taskDto.setDescription("Rad vic");
 		// when -  action or the behaviour that we are going test
-		Task updatedTask = taskService.updateTask(task, task.getId());
+		Task updatedTask = taskService.updateTask(taskDto, task.getId());
 
 		// then - verify the output
 		assertThat(updatedTask.getTitle()).isEqualTo("ram");
