@@ -19,30 +19,30 @@ import java.util.List;
 public class TaskController {
 
   @Autowired
-  private TaskService userService;
+  private TaskService taskService;
 
-  @PostMapping("/user")
+  @PostMapping("/task")
   Task newTask(@RequestBody Task newTask){
-    return userService.saveTask(newTask);
+    return taskService.saveTask(newTask);
   }
 
-  @GetMapping("/users")
+  @GetMapping("/tasks")
   List<Task> getAllTasks() {
-    return  userService.findAllTasks();
+    return  taskService.findAllTasks();
   }
 
-  @GetMapping("/user/{id}")
+  @GetMapping("/task/{id}")
   Task getTaskById(@PathVariable Long id){
-    return userService.findTaskById(id);
+    return taskService.findTaskById(id);
   }
 
-  @PutMapping("/user/{id}")
+  @PutMapping("/task/{id}")
   Task updateTask(@RequestBody Task newTask, @PathVariable Long id) {
-    return userService.updateTask(newTask, id);
+    return taskService.updateTask(newTask, id);
   }
 
-  @DeleteMapping("/user/{id}")
+  @DeleteMapping("/task/{id}")
   String deleteTask(@PathVariable Long id){
-     return userService.deleteTask(id);
+     return taskService.deleteTask(id);
   }
 }

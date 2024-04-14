@@ -1,5 +1,6 @@
 package ru.vaganov.tasks.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,6 +32,7 @@ public class Task {
   private  Long id;
   private String title;
   private String description;
+  @JsonFormat(pattern="yyyy-MM-dd")
   private LocalDate dueDate;
   private boolean completed;
 
