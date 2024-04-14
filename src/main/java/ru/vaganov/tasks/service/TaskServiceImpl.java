@@ -13,11 +13,14 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService{
 
-  @Autowired
+
   private TaskRepository repository;
+
+  public TaskServiceImpl(TaskRepository repository) {
+    this.repository = repository;
+  }
 
   @Transactional
   public Task saveTask(TaskDto newTaskDto){
